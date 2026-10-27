@@ -1,0 +1,42 @@
+name: "🐞 Баг"
+description: "Что-то сломалось, тормозит или выглядит не так"
+title: "[Баг] "
+labels: ["баг"]
+body:
+  - type: markdown
+    attributes:
+      value: "Спасибо, что помогаешь сделать «Терру» лучше! Чем подробнее описание, тем быстрее мы починим."
+  - type: textarea
+    id: what
+    attributes:
+      label: Что случилось?
+      description: Опиши, что произошло и что ты ожидал увидеть.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Как повторить
+      placeholder: "1. Начал новую игру\n2. Дошёл до рынка\n3. ..."
+  - type: input
+    id: device
+    attributes:
+      label: Устройство и браузер
+      placeholder: "Например: Samsung Galaxy S24 FE, Chrome 141 / ПК, Windows 11, Chrome"
+    validations:
+      required: true
+  - type: dropdown
+    id: quality
+    attributes:
+      label: Качество графики в настройках
+      options: ["Высокое", "Среднее", "Низкое", "Не знаю"]
+  - type: input
+    id: build
+    attributes:
+      label: Сборка
+      description: "Дата или номер сборки со страницы релизов (если знаешь)"
+  - type: textarea
+    id: media
+    attributes:
+      label: Скриншот или видео
+      description: Перетащи файл сюда. Если включить «FPS» в настройках, будут видны показатели производительности.

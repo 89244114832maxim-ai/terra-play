@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ТЕРРА — Россия, 2136. Шутер на выживание в браузере</title>
+<meta name="description" content="Ты вернулся с Марса, а Земля молчит девять лет. Top-down шутер на выживание: районы постапокалиптической России, боссы, ближний бой, крафт, лагерь и жители. Бесплатно, прямо в браузере — на ПК и Android.">
+<meta name="theme-color" content="#120e0b">
+<link rel="canonical" href="https://89244114832maxim-ai.github.io/terra-play/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ТЕРРА">
+<meta property="og:title" content="ТЕРРА — Россия, 2136">
+<meta property="og:description" content="Постапокалиптический шутер на выживание в браузере. Районы, боссы, лагерь и жители. Играть бесплатно, без установки.">
+<meta property="og:url" content="https://89244114832maxim-ai.github.io/terra-play/">
+<meta property="og:image" content="https://89244114832maxim-ai.github.io/terra-play/assets/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ТЕРРА — Россия, 2136">
+<meta name="twitter:description" content="Шутер на выживание в браузере. Играть бесплатно, без установки.">
+<meta name="twitter:image" content="https://89244114832maxim-ai.github.io/terra-play/assets/og.jpg">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fsec-Black.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/hero_m.webp" media="(max-width:760px)">
+<link rel="preload" as="image" href="assets/hero.webp" media="(min-width:761px)">
+<style>
+@font-face{font-family:D;src:url(assets/fsec-Black.woff2) format("woff2");font-weight:900;font-display:swap}
+@font-face{font-family:D;src:url(assets/fsec-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+:root{--bg:#0f0c0a;--bg2:#17120f;--card:#1c1612;--line:#3a2c22;--tx:#ece3d6;--mu:#a89a8a;--rust:#c4622a;--amber:#f2a03c;--glow:rgba(242,160,60,.35);--r:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.06;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:var(--amber);text-decoration:none}a:hover{text-decoration:underline}
+img{max-width:100%;display:block}
+h1,h2,h3,.d{font-family:D,"Arial Narrow",Impact,sans-serif;font-weight:900;letter-spacing:.02em;line-height:1.02;text-transform:uppercase}
+h2{font-size:clamp(34px,6vw,60px);margin-bottom:14px}
+h3{font-size:22px;font-weight:700;margin-bottom:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+section{padding:88px 0;position:relative}
+.eyebrow{font-family:D;font-weight:700;color:var(--amber);letter-spacing:.24em;text-transform:uppercase;font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.eyebrow:before{content:"";width:28px;height:2px;background:var(--rust)}
+.lead{color:var(--mu);font-size:18px;max-width:720px}
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:40;transition:background .3s,backdrop-filter .3s}
+nav.s{background:rgba(15,12,10,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;height:62px;gap:24px}
+.logo{font-family:D;font-weight:900;font-size:28px;color:var(--amber);letter-spacing:.06em;text-shadow:0 0 18px var(--glow)}
+.logo small{font-size:13px;color:var(--mu);letter-spacing:.2em;margin-left:6px}
+nav ul{display:flex;gap:20px;list-style:none;margin-left:auto}
+nav ul a{color:var(--tx);font-size:14px;opacity:.8}nav ul a:hover{opacity:1;text-decoration:none;color:var(--amber)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:D;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border-radius:10px;padding:14px 26px;font-size:18px;transition:transform .15s,box-shadow .2s,background .2s;cursor:pointer;border:0}
+.btn:hover{text-decoration:none;transform:translateY(-2px)}
+.btn.p{background:linear-gradient(180deg,#e07a34,#b4501d);color:#160f0a;box-shadow:0 8px 30px rgba(196,98,42,.45),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn.p:hover{box-shadow:0 10px 40px rgba(242,140,60,.6)}
+.btn.g{border:1px solid #5a4636;color:var(--tx);background:rgba(20,15,12,.5)}
+.btn.g:hover{border-color:var(--amber);color:var(--amber)}
+.btn.sm{padding:9px 18px;font-size:15px}
+.btn svg{width:20px;height:20px}
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding:120px 0 70px;overflow:hidden}
+.hero .bg{position:absolute;inset:0;background:#000 url(assets/hero.webp) center/cover no-repeat;transform:scale(1.06);animation:kb 26s ease-in-out infinite alternate}
+@media(max-width:760px){.hero .bg{background-image:url(assets/hero_m.webp)}}
+@keyframes kb{to{transform:scale(1.14) translate(-1.5%,-1%)}}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(242,140,60,.12),transparent 55%),linear-gradient(180deg,rgba(15,12,10,.55) 0%,rgba(15,12,10,.15) 35%,rgba(15,12,10,.85) 78%,var(--bg) 100%)}
+.hero .wrap{position:relative;z-index:2;width:100%}
+.hero h1{font-size:clamp(84px,17vw,210px);color:var(--amber);text-shadow:0 0 40px rgba(242,140,60,.35),0 4px 0 #6b2f12;line-height:.9}
+.hero .y{font-family:D;font-weight:700;font-size:clamp(20px,3vw,30px);letter-spacing:.3em;color:#e9dccb;margin:8px 0 18px}
+.hero p.t{font-size:clamp(17px,2.1vw,21px);max-width:620px;color:#e2d6c6;margin-bottom:28px;text-shadow:0 2px 12px #000}
+.ctas{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;color:#d7c9b7;border:1px solid rgba(255,255,255,.14);background:rgba(10,8,6,.55);border-radius:99px;padding:5px 12px}
+.chip b{color:var(--amber);font-weight:600}
+.scroll{position:absolute;bottom:18px;left:50%;z-index:3;width:24px;height:38px;border:2px solid rgba(255,255,255,.35);border-radius:14px;transform:translateX(-50%)}
+.scroll:after{content:"";position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;background:var(--amber);border-radius:2px;animation:sc 1.6s infinite}
+@keyframes sc{to{transform:translateY(12px);opacity:0}}
+/* story */
+.story{background:linear-gradient(180deg,var(--bg),var(--bg2))}
+.beats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.beat{border-left:2px solid var(--rust);padding:6px 0 6px 18px}
+.beat .n{font-family:D;font-weight:900;color:var(--rust);font-size:42px;line-height:1}
+.beat p{color:var(--mu)}
+/* features */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.f{background:linear-gradient(180deg,#201914,#17120f);border:1px solid var(--line);border-radius:var(--r);padding:22px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.f:hover{border-color:#6b4a30;transform:translateY(-3px)}
+.f:before{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;background:radial-gradient(circle,rgba(242,140,60,.14),transparent 70%)}
+.f .ic{width:44px;height:44px;border-radius:10px;background:rgba(196,98,42,.14);border:1px solid rgba(196,98,42,.4);display:grid;place-items:center;margin-bottom:14px}
+.f .ic svg{width:24px;height:24px;stroke:var(--amber);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.f p{color:var(--mu);font-size:15px}
+.f.w{grid-column:span 2}
+.rar{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.rar span{font-size:12px;padding:3px 9px;border-radius:6px;border:1px solid currentColor;background:rgba(0,0,0,.25)}
+/* showcase rows */
+.show{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center;margin-top:64px}
+.show.r{grid-template-columns:1fr 1.25fr}.show.r .im{order:2}
+.show .im{border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 60px rgba(0,0,0,.5);cursor:zoom-in}
+.show ul{list-style:none;margin-top:14px}
+.show li{padding:6px 0 6px 26px;position:relative;color:#d6cabb}
+.show li:before{content:"";position:absolute;left:4px;top:15px;width:10px;height:2px;background:var(--amber)}
+/* gallery */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;gap:10px;margin-top:36px}
+.gal a{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#000}
+.gal a:nth-child(1){grid-column:span 2;grid-row:span 2}
+.gal a:nth-child(6){grid-column:span 2}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform .5s,filter .3s;filter:saturate(.9)}
+.gal a:hover img{transform:scale(1.06);filter:saturate(1.1)}
+.gal a span{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 8px;font-size:13px;color:#eee;background:linear-gradient(transparent,rgba(0,0,0,.8));opacity:0;transition:opacity .25s}
+.gal a:hover span{opacity:1}
+.lb{position:fixed;inset:0;z-index:60;background:rgba(5,4,3,.94);display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+.lb.o{display:flex}
+.lb img{max-height:82vh;border-radius:8px;box-shadow:0 0 60px rgba(0,0,0,.8)}
+.lb p{color:var(--mu);margin-top:12px;text-align:center}
+.lb button{position:absolute;background:rgba(30,22,17,.8);border:1px solid var(--line);color:var(--tx);width:48px;height:48px;border-radius:50%;font-size:24px;cursor:pointer}
+.lb .x{top:16px;right:16px}.lb .pv{left:16px;top:50%}.lb .nx{right:16px;top:50%}
+/* bosses */
+.bosses{background:radial-gradient(ellipse at 50% 0,rgba(120,30,20,.25),transparent 60%),var(--bg2)}
+.bg4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.b{border-radius:var(--r);overflow:hidden;background:#120e0b;border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.b:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 0 1px var(--c)}
+.b .pic{aspect-ratio:68/71;overflow:hidden;position:relative}
+.b .pic img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.b:hover .pic img{transform:scale(1.07)}
+.b .pic:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,#120e0b)}
+.b .tx{padding:4px 18px 20px}
+.b h3{color:var(--c);font-size:24px;font-weight:900}
+.b .m{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:10px}
+.b p{font-size:14.5px;color:#cdbfae}
+.note{margin-top:22px;color:var(--mu);font-size:15px}
+/* roadmap */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.st{border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--card);position:relative}
+.st .tag{display:inline-block;font-family:D;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;padding:4px 10px;border-radius:6px;margin-bottom:12px}
+.st.now{border-color:#7a4a26;box-shadow:0 0 0 1px rgba(242,160,60,.15),0 20px 40px rgba(0,0,0,.4)}
+.st.now .tag{background:var(--amber);color:#1a120b}
+.st.nx .tag{background:#3a2c22;color:var(--amber)}
+.st.lt .tag{background:#25201c;color:var(--mu)}
+.st ul{list-style:none}.st li{padding:5px 0 5px 22px;position:relative;color:#d2c5b5;font-size:15px}
+.st li:before{content:"";position:absolute;left:2px;top:12px;width:8px;height:8px;border-radius:2px;border:1.5px solid var(--mu)}
+.st.now li:before{background:var(--amber);border-color:var(--amber)}
+/* log */
+.log{margin-top:34px;border-left:2px solid var(--line);padding-left:24px}
+.li{position:relative;padding:0 0 22px}
+.li:before{content:"";position:absolute;left:-31px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--amber)}
+.li b{display:block;font-family:D;font-weight:700;font-size:19px;letter-spacing:.03em}
+.li span{color:var(--mu);font-size:15px}
+.ver{font-size:13px;color:var(--rust);letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:12px}
+/* team & dev */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
+.lead2{display:flex;gap:18px;align-items:center;margin:18px 0}
+.ava{width:72px;height:72px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#e07a34,#5a2510);display:grid;place-items:center;font-family:D;font-weight:900;font-size:30px;color:#1a0f08;box-shadow:0 0 0 3px #2a1f17,0 0 0 4px #7a4a26}
+.lead2 b{font-size:19px;display:block}.lead2 span{color:var(--mu);font-size:14px}
+.tech{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.tech span{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;padding:5px 10px;border-radius:6px;background:#120e0b;border:1px solid var(--line);color:#e8c597}
+.card p{color:#cdbfae;margin-bottom:12px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+/* final cta */
+.fin{text-align:center;padding:110px 0;background:linear-gradient(180deg,var(--bg2),var(--bg)),#000;overflow:hidden}
+.fin:before{content:"";position:absolute;inset:0;background:url(assets/g_ruins_fire_dusk.webp) center/cover;opacity:.22;filter:blur(2px)}
+.fin .wrap{position:relative}
+.fin h2{font-size:clamp(40px,8vw,84px)}
+.fin p{color:var(--mu);margin:0 auto 28px;max-width:560px}
+.fin .ctas{justify-content:center}
+footer{border-top:1px solid var(--line);padding:34px 0 100px;color:var(--mu);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+/* sticky mobile cta */
+.mcta{position:fixed;left:12px;right:12px;bottom:12px;z-index:45;display:none;transform:translateY(120%);transition:transform .3s}
+.mcta.v{transform:none}
+.mcta .btn{width:100%;padding:15px}
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+@media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.bg4{grid-template-columns:repeat(2,1fr)}nav ul{display:none}nav .btn{margin-left:auto}.road{grid-template-columns:1fr}}
+@media(max-width:760px){section{padding:64px 0}.beats,.two,.show,.show.r{grid-template-columns:1fr}.show.r .im{order:0}.show{gap:22px;margin-top:48px}
+ .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:120px}.gal a:nth-child(6){grid-column:span 2}.mcta{display:block}.hero{padding-bottom:60px}.ctas .btn{flex:1 1 auto}.scroll{display:none}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.f.w{grid-column:auto}.bg4{grid-template-columns:1fr 1fr;gap:10px}.b .tx{padding:2px 12px 14px}.b h3{font-size:19px}.b p{font-size:13px}}
+</style>
+</head>
+<body>
+<nav id="nav"><div class="wrap">
+ <a class="logo" href="#top">ТЕРРА<small>2136</small></a>
+ <ul><li><a href="#story">Мир</a></li><li><a href="#features">Особенности</a></li><li><a href="#gallery">Скриншоты</a></li><li><a href="#bosses">Боссы</a></li><li><a href="#roadmap">Планы</a></li><li><a href="#team">Команда</a></li><li><a href="#dev">Разработчикам</a></li></ul>
+ <a class="btn p sm" href="play/">Играть</a>
+</div></nav>
+
+<header class="hero" id="top">
+ <div class="bg" role="img" aria-label="Заброшенный спальный район, Россия 2136"></div>
+ <div class="wrap">
+  <div class="eyebrow">Бесплатная браузерная игра · ранний доступ</div>
+  <h1>Терра</h1>
+  <div class="y">Россия · 2136</div>
+  <p class="t">Ты вернулся с Марса, а Земля молчит девять лет. Города заросли спорами, по улицам бродят мутанты, а ты, похоже, последний человек. Выживи этой ночью. Найди людей. Верни им города.</p>
+  <div class="ctas">
+   <a class="btn p" href="play/"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>Играть в браузере</a>
+   <a class="btn g" href="https://github.com/89244114832maxim-ai/terra-play/releases/latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Скачать</a>
+  </div>
+  <div class="chips"><span class="chip"><b>Бесплатно</b></span><span class="chip">Без установки</span><span class="chip">ПК и Android · Chrome</span><span class="chip">≈ 20 МБ</span><span class="chip">Сенсорное управление</span></div>
+ </div>
+ <a class="scroll" href="#story" aria-label="Листать вниз"></a>
+</header>
+
+<section class="story" id="story"><div class="wrap">
+ <div class="eyebrow">Мир игры</div>
+ <h2 class="rv">Последний рейс домой</h2>
+ <p class="lead rv">Экспедиция «Арес-7» возвращается с Марса. Капсула «ТЕРРА-1» входит в атмосферу над Россией, но на связь никто не выходит. Внизу — пустые панельки, ржавые «Лады» на трассах, затопленное метро и споровые поля там, где раньше были парки. ТЕРРА — top-down шутер на выживание: динамика аркадного боевика, глубина выживалки, мрачная атмосфера и чуть-чуть мультяшный стиль.</p>
+ <div class="beats">
+  <div class="beat rv"><div class="n">01</div><h3>Выжить</h3><p>Палка вместо оружия, пустой рюкзак и ночь впереди. Ищи еду и воду, обыскивай квартиры и подвалы, следи за радиацией и спорами.</p></div>
+  <div class="beat rv"><div class="n">02</div><h3>Найти людей</h3><p>В эфире звучит радиостанция «Рассвет». Спасай выживших, освобождай пленных и собирай общину вокруг костра.</p></div>
+  <div class="beat rv"><div class="n">03</div><h3>Вернуть города</h3><p>Отстрой лагерь, защити его от набегов, освобождай районы один за другим. От одного человека до защищённого города.</p></div>
+ </div>
+</div></section>
+
+<section id="features"><div class="wrap">
+ <div class="eyebrow">Что внутри</div>
+ <h2 class="rv">Большая игра в маленькой вкладке</h2>
+ <p class="lead rv">Всё работает прямо в браузере, даже на телефоне. Ничего не нужно устанавливать.</p>
+ <div class="grid">
+  <div class="f w rv"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"/></svg></div><h3>Открытый мир и районы</h3><p>Огромная процедурная карта из пяти поясов опасности: Окраина, Спальные кварталы, Мёртвый город, Красная зона и Эпицентр. Трассы, рынки, частный сектор, руины, метро и подвалы. Аномалии, пожары, радиация и событие «Выброс».</p></div>
+  <div class="f rv"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3c-4 0-7 3-7 7 0 2.5 1.2 4 2.5 5v3h9v-3c1.3-1 2.5-2.5 2.5-5 0-4-3-7-7-7zM9 11h.01M15 11h.01M10 21h4"/></svg></div><h3>Боссы</h3><p>Четыре босса в своих логовах, у каждого несколько атак, фаз и кинематографичное появление. Атаки предупреждают о себе, поэтому от любой можно увернуться.</p></div>
+  <div class="f rv"><div class="ic"><svg viewBox="0 0 24 24"><path d="M14.5 3.5 20 3l-.5 5.5L9 19l-4-4zM5 15l-2 6 6-2M7 13l4 4"/></svg></div><h3>Ближний бой и оружие</h3><p>Начинаешь с палки. Дальше бита, мачете, катана, двуручник, копьё, потом револьвер, двустволка, автомат, рельсотрон, дрон и наплечная турель. Есть гранаты, мины и капканы.</p></div>
+  <div class="f w rv"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.6 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg></div><h3>Добыча, крафт и слияние</h3><p>Добыча сама летит в руки. Ненужное разбирай на ресурсы, а одинаковые предметы объединяй в более редкий. Заточка до +16 с риском. Чем выше редкость, тем больше силы, эффектов и радиуса.</p>
+   <div class="rar"><span style="color:#b9b9b9">Обычная</span><span style="color:#5fd16a">Редкая</span><span style="color:#4ea3ff">Очень редкая</span><span style="color:#b56cff">Особая</span><span style="color:#ffd84a">Уникальная</span><span style="color:#ff8a2a">Легендарная</span></div></div>
+  <div class="f rv"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20l7-14 7 14M9.5 20l2.5-5 2.5 5"/></svg></div><h3>Лагерь и жители</h3><p>Спасай выживших: инженера, медика, разведчика, охранника, фермера и торговца. Они работают, носят ресурсы, охраняют лагерь и берут ежедневные контракты.</p></div>
+  <div class="f rv"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6M2 21h20"/></svg></div><h3>Оборона</h3><p>Ставь стены, ворота, вышки, турели и ловушки. Отбивай набеги и осады, держи блокпосты на дорогах.</p></div>
+  <div class="f rv"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v4M5 7l2 3M19 7l-2 3M4 14h4l2-3 2 6 2-4 2 1h4M7 20h10"/></svg></div><h3>Живой мир</h3><p>Руби деревья и смотри, как они падают. Вскрывай двери, ломай преграды ломом, перелезай заборы, обыскивай ящики. Ищи подвалы и запертые комнаты с лучшей добычей.</p></div>
+  <div class="f rv"><div class="ic"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></div><h3>Удобно на телефоне</h3><p>Два виртуальных стика и крупные кнопки. Радиальное колесо оружия замедляет время, пока ты выбираешь. Работает и вертикально, и горизонтально. На ПК — клавиатура и мышь.</p></div>
+ </div>
+
+ <div class="show rv"><a class="im" href="assets/g_res_day.webp" data-lb="Спальный район: панельки, завалы, первые находки"><img loading="lazy" src="assets/g_res_day.webp" width="1280" height="720" alt="Спальный район днём"></a>
+  <div><div class="eyebrow">День и ночь</div><h3 style="font-size:32px;font-weight:900">Атмосфера, которую чувствуешь</h3><ul><li>Настоящие текстуры: трава, грязь, мох, асфальт, бетон, кирпич, ржавчина</li><li>Динамические тени, фонарик, мягкое свечение и низкий туман</li><li>Смена дня и ночи: ночью мир становится опаснее</li><li>Атмосферная музыка для исследования, боя, подземелий и лагеря</li></ul></div></div>
+ <div class="show r rv"><a class="im" href="assets/g_u_loot.webp" data-lb="Добыча светится цветом редкости"><img loading="lazy" src="assets/g_u_loot.webp" width="1280" height="590" alt="Добыча светится цветом редкости"></a>
+  <div><div class="eyebrow">Добыча</div><h3 style="font-size:32px;font-weight:900">Каждый ящик — маленький праздник</h3><ul><li>Лучи редкости видно издалека</li><li>Магнит сам притягивает добычу к герою</li><li>Разбор на ресурсы и слияние в более редкие предметы</li><li>Сумка смерти: вернись за половиной ресурсов</li></ul></div></div>
+</div></section>
+
+<section id="gallery" style="background:var(--bg2)"><div class="wrap">
+ <div class="eyebrow">Скриншоты</div>
+ <h2 class="rv">Как это выглядит</h2>
+ <p class="lead rv">Кадры из текущей сборки. Нажми, чтобы увеличить.</p>
+ <div class="gal rv" id="gal">
+  <a href="assets/g_ruins_fire_dusk.webp" data-lb="Руины в огне на закате"><img loading="lazy" src="assets/g_ruins_fire_dusk.webp" alt="Руины в огне"><span>Руины в огне на закате</span></a>
+  <a href="assets/g_highway_dusk.webp" data-lb="Трасса: брошенные машины и баррикады"><img loading="lazy" src="assets/t_highway_dusk.webp" alt="Трасса"><span>Трасса</span></a>
+  <a href="assets/g_market_day.webp" data-lb="Рынок у дороги"><img loading="lazy" src="assets/t_market_day.webp" alt="Рынок"><span>Рынок у дороги</span></a>
+  <a href="assets/g_u_melee.webp" data-lb="Ночная схватка"><img loading="lazy" src="assets/t_u_melee.webp" alt="Ночной бой"><span>Ночной бой</span></a>
+  <a href="assets/g_park_dusk.webp" data-lb="Частный сектор в сумерках"><img loading="lazy" src="assets/t_park_dusk.webp" alt="Частный сектор"><span>Частный сектор</span></a>
+  <a href="assets/g_res_night.webp" data-lb="Ночью фонарик — твой лучший друг"><img loading="lazy" src="assets/g_res_night.webp" alt="Ночь"><span>Ночью фонарик — твой лучший друг</span></a>
+  <a href="assets/g_u_chop.webp" data-lb="Рубка деревьев"><img loading="lazy" src="assets/t_u_chop.webp" alt="Рубка деревьев"><span>Рубка деревьев</span></a>
+  <a href="assets/g_u_camp.webp" data-lb="Панель лагеря: жители, здания, территории"><img loading="lazy" src="assets/t_u_camp.webp" alt="Лагерь"><span>Лагерь</span></a>
+  <a href="assets/g_dark_dusk.webp" data-lb="Мёртвые кварталы"><img loading="lazy" src="assets/t_dark_dusk.webp" alt="Мёртвые кварталы"><span>Мёртвые кварталы</span></a>
+  <a href="assets/g_u_phone.webp" data-lb="Интерфейс на телефоне"><img loading="lazy" src="assets/t_u_phone.webp" alt="Интерфейс на телефоне"><span>Интерфейс на телефоне</span></a>
+  <a href="assets/g_market_night.webp" data-lb="Рынок ночью"><img loading="lazy" src="assets/t_market_night.webp" alt="Рынок ночью"><span>Рынок ночью</span></a>
+  <a href="assets/g_u_merge.webp" data-lb="Слияние предметов"><img loading="lazy" src="assets/t_u_merge.webp" alt="Слияние предметов"><span>Слияние предметов</span></a>
+ </div>
+</div></section>
+
+<section class="bosses" id="bosses"><div class="wrap">
+ <div class="eyebrow">Боссы мира</div>
+ <h2 class="rv">Они ждут тебя в логовах</h2>
+ <p class="lead rv">У каждого пояса опасности свой хозяин. Логова отмечены на карте черепом. Через три игровых дня босс возвращается сильнее.</p>
+ <div class="bg4">
+  <div class="b rv" style="--c:#3fd6a0"><div class="pic"><img loading="lazy" src="assets/boss_kolos.webp" alt="Чернобор, Грибной Колосс"></div><div class="tx"><div class="m">6,5 м · ТЭЦ-6</div><h3>Чернобор</h3><p>Грибной Колосс из сросшихся тел под пластинами трутовика. Бьёт «молотом гнили», выдыхает споры и пускает корни-шипы.</p></div></div>
+  <div class="b rv" style="--c:#b07cff"><div class="pic"><img loading="lazy" src="assets/boss_kukl.webp" alt="Кукловод"></div><div class="tx"><div class="m">4,5 м · НИИ «Полюс»</div><h3>Кукловод</h3><p>Бывший учёный с раздутым мозгом. Управляет зомби через грибные нити, швыряет обломки и создаёт иллюзии-двойников.</p></div></div>
+  <div class="b rv" style="--c:#ff7a3a"><div class="pic"><img loading="lazy" src="assets/boss_moloh.webp" alt="Объект-7 «Молох»"></div><div class="tx"><div class="m">5,6 м · бункер «Объект-7»</div><h3>«Молох»</h3><p>Лабораторный тиран в броне на болтах и с гидравлической перчаткой. Таранит, хватает, а на половине здоровья сбрасывает броню.</p></div></div>
+  <div class="b rv" style="--c:#cfe8a0"><div class="pic"><img loading="lazy" src="assets/boss_tsarina.webp" alt="Костяная Царица"></div><div class="tx"><div class="m">5,4 м · станция «Костная»</div><h3>Костяная Царица</h3><p>Скелет на нитях мицелия в короне-кокошнике из рёбер. Косит руками-косами и поднимает костяной рой.</p></div></div>
+ </div>
+ <p class="note rv">А в подземельях ждут Мясник с «Гагаринской» и Матка спор.</p>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
+ <div class="eyebrow">Дорожная карта</div>
+ <h2 class="rv">Куда мы идём</h2>
+ <p class="lead rv">Игра в раннем доступе и обновляется часто. Сроков не обещаем, обещаем честно показывать прогресс.</p>
+ <div class="road">
+  <div class="st now rv"><span class="tag">Сейчас</span><h3>Ранний доступ</h3><ul><li>Открытый мир, пять поясов опасности</li><li>Ближний бой и огнестрел, гранаты и ловушки</li><li>Четыре босса мира и два босса подземелий</li><li>Редкость, слияние, разбор и заточка</li><li>Лагерь, жители, оборона и ежедневные контракты</li><li>Сенсорное управление и сохранения</li></ul></div>
+  <div class="st nx rv"><span class="tag">Дальше</span><h3>Больше России</h3><ul><li>Новые регионы: промзона, порт, НИИ, военная часть, деревня, лес, ЗАТО</li><li>Сюжетная кампания и радиопередачи</li><li>Новые враги, оружие и события</li><li>Производство: мастерская, электростанция, ферма</li><li>Техника: УАЗ, «Нива», дрезина в метро</li></ul></div>
+  <div class="st lt rv"><span class="tag">Потом</span><h3>Вместе</h3><ul><li>Несколько поселений и караваны между ними</li><li>Освобождение городов</li><li>Кооператив на 2–4 игроков с общей базой</li><li>Позже — общий мир с поселениями игроков</li></ul></div>
+ </div>
+</div></section>
+
+<section id="news" style="background:var(--bg2)"><div class="wrap two">
+ <div><div class="eyebrow">Обновления</div><h2 class="rv">Что нового</h2><p class="lead rv">Главное из последних сборок. Полный список версий — на странице <a href="https://github.com/89244114832maxim-ai/terra-play/releases">релизов</a>.</p></div>
+ <div class="log rv"><div class="ver">Октябрь 2026</div>
+  <div class="li"><b>Мир стал настоящим</b><span>Текстуры травы, грязи, бетона и ржавчины, рельеф с камнем на склонах, туман, свечение и цветокоррекция.</span></div>
+  <div class="li"><b>Игра похудела почти вдвое</b><span>Около 20 МБ вместо 35, поэтому загружается заметно быстрее, особенно на телефоне.</span></div>
+  <div class="li"><b>Оборона лагеря</b><span>Набеги и осады, охранники на постах и блокпосты на дорогах.</span></div>
+  <div class="li"><b>Лагерь и жители</b><span>Шесть жителей с профессиями, работа, уровни лагеря, ежедневные контракты и освобождение районов.</span></div>
+  <div class="li"><b>Руки героя заняты делом</b><span>Обыск ящиков, рубка и падение деревьев, двери, лом и перелаз через заборы.</span></div>
+  <div class="li"><b>Боссы мира</b><span>Четыре логова, у каждого босса свои атаки и фазы.</span></div>
+ </div>
+</div></section>
+
+<section id="team"><div class="wrap two">
+ <div class="card rv"><div class="eyebrow">О команде</div><h2>Сделано в Иркутске</h2>
+  <p>Мы — команда энтузиастов из Иркутска. Делаем игру, в которую хотим играть сами: мрачную, как классические хорроры, динамичную, как старые аркадные шутеры, и про нашу страну.</p>
+  <div class="lead2"><div class="ava">СК</div><div><b>Сергей Карачицев</b><span>руководитель проекта · 34 года</span></div></div>
+  <p>Нам важно мнение каждого игрока. Если нашёл баг, придумал оружие или босса или хочешь помочь с тестами на своём телефоне, напиши нам.</p>
+  <div class="links"><a class="btn g sm" href="https://github.com/89244114832maxim-ai/terra-play/issues/new?template=idea.yml">Предложить идею</a><a class="btn g sm" href="https://github.com/89244114832maxim-ai/terra-play/issues/new?template=bug.yml">Сообщить о баге</a></div>
+ </div>
+ <div class="card rv" id="dev"><div class="eyebrow">Для разработчиков</div><h2>Под капотом</h2>
+  <p>Вся игра — это один HTML-файл. Он работает офлайн и открывается в любом современном Chrome, без сервера и движка.</p>
+  <div class="tech"><span>Three.js</span><span>WebGL 2</span><span>Web Audio</span><span>PBR-атласы</span><span>Bloom · SSAO · ACES</span><span>VAT-анимация толп</span><span>meshopt + WebP</span><span>процедурный мир по seed</span></div>
+  <p>Мир собирается из детерминированных чанков по 48 м. Толпы врагов на дальнем плане анимируются вершинной текстурой, чтобы большие толпы зомби не тормозили даже на телефоне. Модели сжаты meshopt, текстуры — в WebP, всё вместе весит около 20 МБ.</p>
+  <p>Интересно, как всё устроено, есть идеи по оптимизации или нашёл проблему с производительностью на своём устройстве? Открой issue и укажи модель телефона и браузер.</p>
+  <div class="links"><a class="btn g sm" href="https://github.com/89244114832maxim-ai/terra-play/issues">Issues</a><a class="btn g sm" href="https://github.com/89244114832maxim-ai/terra-play/releases">Все сборки</a><a class="btn g sm" href="credits.html">Авторы ассетов</a></div>
+ </div>
+</div></section>
+
+<section class="fin"><div class="wrap">
+ <h2 class="rv">Ночь близко</h2>
+ <p class="rv">Капсула уже приземлилась. Палка лежит рядом. Сможешь дожить до утра?</p>
+ <div class="ctas rv"><a class="btn p" href="play/">Играть в браузере</a><a class="btn g" href="https://github.com/89244114832maxim-ai/terra-play/releases/latest">Скачать</a></div>
+</div></section>
+
+<footer><div class="wrap">
+ <div>© 2026 Команда «Терра», Иркутск</div>
+ <div><a href="credits.html">Авторы и лицензии ассетов</a> · <a href="https://github.com/89244114832maxim-ai/terra-play">GitHub</a> · <a href="https://github.com/89244114832maxim-ai/terra-play/issues">Обратная связь</a></div>
+</div></footer>
+
+<div class="mcta" id="mcta"><a class="btn p" href="play/">▶ Играть бесплатно</a></div>
+<div class="lb" id="lb" role="dialog" aria-modal="true"><button class="x" aria-label="Закрыть">×</button><button class="pv" aria-label="Назад">‹</button><img alt=""><p></p><button class="nx" aria-label="Вперёд">›</button></div>
+<script>
+(()=>{const n=document.getElementById('nav'),m=document.getElementById('mcta');
+const on=()=>{const y=scrollY;n.classList.toggle('s',y>40);m.classList.toggle('v',y>innerHeight*.7&&y<document.body.scrollHeight-innerHeight*1.6)};addEventListener('scroll',on,{passive:true});on();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+const L=[...document.querySelectorAll('[data-lb]')],lb=document.getElementById('lb'),im=lb.querySelector('img'),cap=lb.querySelector('p');let i=0;
+const show=k=>{i=(k+L.length)%L.length;im.src=L[i].getAttribute('href');cap.textContent=L[i].dataset.lb;lb.classList.add('o')};
+L.forEach((a,k)=>a.addEventListener('click',e=>{e.preventDefault();show(k)}));
+lb.querySelector('.x').onclick=()=>lb.classList.remove('o');lb.querySelector('.pv').onclick=()=>show(i-1);lb.querySelector('.nx').onclick=()=>show(i+1);
+lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('o')});
+addEventListener('keydown',e=>{if(!lb.classList.contains('o'))return;if(e.key==='Escape')lb.classList.remove('o');if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
+let x0=null;lb.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});lb.addEventListener('touchend',e=>{if(x0==null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>40)show(i+(d<0?1:-1));x0=null});
+})();
+</script>
+</body>
+</html>

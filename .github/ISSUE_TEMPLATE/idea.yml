@@ -1,0 +1,24 @@
+name: "💡 Идея"
+description: "Новое оружие, босс, район, механика или улучшение"
+title: "[Идея] "
+labels: ["идея"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: О чём идея?
+      options: ["Оружие и бой", "Враги и боссы", "Мир и районы", "Лагерь и жители", "Добыча и крафт", "Управление и интерфейс", "Звук и атмосфера", "Другое"]
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Опиши идею
+      description: Что добавить или изменить и чем это сделает игру интереснее?
+    validations:
+      required: true
+  - type: textarea
+    id: refs
+    attributes:
+      label: Примеры и референсы
+      description: Ссылки, картинки, игры, где это сделано хорошо.
