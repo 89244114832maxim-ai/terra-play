@@ -1,4 +1,4 @@
-name: Публикация сборки
+name: Проверка архива после Pages
 on:
   workflow_run:
     workflows: ["pages build and deployment"]
@@ -6,17 +6,17 @@ on:
     branches: [main]
 permissions: {}
 concurrency:
-  group: release-after-pages
+  group: release-after-pages-probe
   cancel-in-progress: false
 jobs:
-  release:
+  probe:
     if: >-
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.head_branch == 'main' &&
       github.event.workflow_run.repository.full_name == github.repository
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     steps:
       - name: Сверить источник развёртывания
         env:
@@ -30,27 +30,15 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
-      - name: Проверить и подготовить архив
+      - name: Проверить архив без публикации
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           DEPLOY_SHA: ${{ github.event.workflow_run.head_sha }}
+          STARTED_AT: ${{ github.event.workflow_run.created_at }}
         run: |
           set -eu
           test "$(git rev-parse HEAD)" = "$DEPLOY_SHA"
-          tag="build-$(date -u +%Y%m%d-%H%M)"
-          echo "RELEASE_TAG=$tag" >> "$GITHUB_ENV"
-          python3 tools/release_package.py --event "$GITHUB_EVENT_PATH" --current "$DEPLOY_SHA" --tag "$tag" --root . --output "$RUNNER_TEMP/terra.zip" > "$RUNNER_TEMP/package.json"
-          game_sha="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["html_sha256"])' "$RUNNER_TEMP/package.json")"
-          python3 tools/release_existing.py "$REPO" "$game_sha" "$tag"
-          printf '%s  terra.html\n' "$game_sha" > "$RUNNER_TEMP/SHA256SUMS.txt"
-          (cd "$RUNNER_TEMP" && sha256sum terra.zip) >> "$RUNNER_TEMP/SHA256SUMS.txt"
-      - name: Создать выпуск
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-          DEPLOY_SHA: ${{ github.event.workflow_run.head_sha }}
-        run: |
-          set -eu
+          tag="build-$(date -u -d "$STARTED_AT" +%Y%m%d-%H%M)"
+          python3 tools/release_package.py --event "$GITHUB_EVENT_PATH" --current "$DEPLOY_SHA" --tag "$tag" --root . --output "$RUNNER_TEMP/terra.zip"
           test "$(gh api "repos/$REPO/git/ref/heads/main" --jq .object.sha)" = "$DEPLOY_SHA"
-          gh release create "$RELEASE_TAG" "$RUNNER_TEMP/terra.zip" "$RUNNER_TEMP/SHA256SUMS.txt" --repo "$REPO" --target "$DEPLOY_SHA" --title "Терра — сборка" --notes 'Сборка игры для браузера и автономного запуска.' --latest
