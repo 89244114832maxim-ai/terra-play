@@ -1,25 +1,25 @@
-name: Проверка архива после Pages
+name: Выпуск после Pages
 on:
   push:
     branches: [main]
 permissions: {}
 concurrency:
   group: release-after-pages-probe
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   probe:
     if: github.repository == '89244114832maxim-ai/terra-play'
     runs-on: ubuntu-latest
     timeout-minutes: 12
     permissions:
-      contents: read
+      contents: write
       actions: read
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-      - name: Проверить развёртывание и архив
+      - name: Проверить развёртывание и подготовить выпуск
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 tools/pages_probe.py

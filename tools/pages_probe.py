@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Wait for Pages metadata and prepare an offline package; never publish."""
-import json,os,pathlib,re,subprocess,time
+"""Wait for verified Pages deployment, then deliver the offline package."""
+import datetime,json,os,pathlib,re,subprocess,time
+from release_writer import GitHub, deliver
 from release_package import package
 
 def ready(runs, sha):
@@ -26,7 +27,12 @@ def main():
             if not any(j.get('name')=='deploy' and j.get('status')=='completed' and j.get('conclusion')=='success' for j in jobs): raise ValueError('deploy job not confirmed')
             result=package('.',out)
             if current(repo)!=sha: raise ValueError('main changed after packaging')
-            print(json.dumps({'pages_run':match['html_url'],'commit':sha,'package':result},ensure_ascii=False)); return
+            stamp=subprocess.check_output(['git','show','-s','--format=%cI',sha],text=True).strip()
+            tag='build-'+datetime.datetime.fromisoformat(stamp).astimezone(datetime.timezone.utc).strftime('%Y%m%d-%H%M')
+            sums=out.parent/'SHA256SUMS.txt'
+            sums.write_text(result['terra.html']+'  terra.html\n'+result['credits.html']+'  credits.html\n'+result['zip_sha256']+'  terra.zip\n',encoding='utf-8')
+            status=deliver(GitHub(repo),sha,tag,[out,sums],pathlib.Path('play/index.html').read_bytes(),pathlib.Path('credits.html').read_bytes())
+            print(json.dumps({'pages_run':match['html_url'],'commit':sha,'package':result,'release':status},ensure_ascii=False)); return
         time.sleep(15)
     raise TimeoutError('successful Pages deployment was not observed')
 if __name__=='__main__': main()
