@@ -43,6 +43,7 @@
   connection?.addEventListener?.('change', applyMotion);
   document.addEventListener('visibilitychange', applyMotion);
   applyMotion();
+  if (motionButton) motionButton.hidden = false;
 
   function setupNavigation() {
     const nav = document.getElementById('site-nav');
@@ -85,6 +86,8 @@
       if (!nav.contains(event.target)) closeMenu();
     });
     listenToMedia(matchMedia('(min-width: 960px)'), closeMenu);
+    toggle.hidden = false;
+    root.classList.add('js');
   }
 
   function setupParallax() {
@@ -149,9 +152,10 @@
   }
 
   function setupScenes() {
+    const tablist = document.querySelector('.scene-tabs');
     const tabs = [...document.querySelectorAll('.scene-tab[data-scene]')];
     const entries = tabs.map(tab => ({ tab, panel: document.getElementById(`scene-${tab.dataset.scene}`) }));
-    if (!entries.length || entries.some(entry => !entry.panel)) return;
+    if (!tablist || !entries.length || entries.some(entry => !entry.panel)) return;
     const activate = index => entries.forEach(({ tab, panel }, position) => {
       const selected = position === index;
       tab.setAttribute('aria-selected', String(selected));
@@ -172,7 +176,16 @@
         entries[next].tab.focus();
       });
     });
-    activate(Math.max(0, entries.findIndex(({ tab }) => tab.getAttribute('aria-selected') === 'true')));
+    tablist.setAttribute('role', 'tablist');
+    entries.forEach(({ tab, panel }) => {
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', panel.id);
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', tab.id);
+      panel.tabIndex = 0;
+    });
+    activate(0);
+    tablist.hidden = false;
   }
 
   function setupSequence() {
@@ -339,7 +352,7 @@
     const officialLink = value => {
       try {
         const url = new URL(value);
-        return url.protocol === 'https:' && url.hostname === 'github.com' && !url.username && !url.password &&
+        return url.origin === 'https://github.com' && !url.username && !url.password &&
           url.pathname.startsWith(`${repository}releases/`) ? url.href : null;
       } catch (_) { return null; }
     };
@@ -382,6 +395,5 @@
   setupSequence();
   setupGallery();
   setupTrailer();
-  root.classList.add('js');
   updateRelease();
 })();
