@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Wait for Pages metadata and prepare an offline package; never publish."""
+"""Wait for verified Pages deployment, then deliver the offline package."""
 import datetime,json,os,pathlib,re,subprocess,time
 from release_writer import GitHub, deliver
 from release_package import package
