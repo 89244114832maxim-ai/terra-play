@@ -1,44 +1,25 @@
 name: Проверка архива после Pages
 on:
-  workflow_run:
-    workflows: ["pages build and deployment"]
-    types: [completed]
+  push:
     branches: [main]
 permissions: {}
 concurrency:
   group: release-after-pages-probe
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   probe:
-    if: >-
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.head_branch == 'main' &&
-      github.event.workflow_run.repository.full_name == github.repository
+    if: github.repository == '89244114832maxim-ai/terra-play'
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     permissions:
       contents: read
+      actions: read
     steps:
-      - name: Сверить источник развёртывания
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-          DEPLOY_SHA: ${{ github.event.workflow_run.head_sha }}
-        run: |
-          set -eu
-          test "$(gh api "repos/$REPO/git/ref/heads/main" --jq .object.sha)" = "$DEPLOY_SHA"
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.sha }}
           persist-credentials: false
-      - name: Проверить архив без публикации
+      - name: Проверить развёртывание и архив
         env:
           GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-          DEPLOY_SHA: ${{ github.event.workflow_run.head_sha }}
-          STARTED_AT: ${{ github.event.workflow_run.created_at }}
-        run: |
-          set -eu
-          test "$(git rev-parse HEAD)" = "$DEPLOY_SHA"
-          tag="build-$(date -u -d "$STARTED_AT" +%Y%m%d-%H%M)"
-          python3 tools/release_package.py --event "$GITHUB_EVENT_PATH" --current "$DEPLOY_SHA" --tag "$tag" --root . --output "$RUNNER_TEMP/terra.zip"
-          test "$(gh api "repos/$REPO/git/ref/heads/main" --jq .object.sha)" = "$DEPLOY_SHA"
+        run: python3 tools/pages_probe.py
