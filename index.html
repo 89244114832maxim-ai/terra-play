@@ -284,7 +284,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
      <a class="btn p" href="play/"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>Играть бесплатно</a>
      <a class="btn g" href="https://github.com/89244114832maxim-ai/terra-play/releases/latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Скачать</a>
     </div>
-    <div class="chips"><span class="chip"><b>Бесплатно</b></span><span class="chip">Без установки</span><span class="chip">ПК и Android · Chrome</span><span class="chip">≈ 20 МБ</span></div>
+    <div class="chips"><span class="chip"><b>Бесплатно</b></span><span class="chip">Без установки</span><span class="chip">ПК и Android · Chrome</span><span class="chip">Ранняя версия</span></div>
    </div>
    <div class="stage">
     <div class="phone">
@@ -418,7 +418,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
   <div class="li"><b>Монстры-чемпионы и крысы</b><span>Редкие чемпионы пяти ступеней с особыми чертами и наградами, именные «Ржавый Панцирь» и «Бледный Скиталец», клад под охраной стража. У баков живут крысы, которые уводят за собой зомби.</span></div>
   <div class="li"><b>Оружие: грейды, обвесы и именные мечи</b><span>Любое оружие можно поднять с F до S, поставить обвесы в мастерской и найти именные мечи «Сердце кристалла», «Неон-2136» и легендарную «Золотую кровь». Новая игра поверх защищённого сохранения и восстановление резервной копии; удары больше не срабатывают после смены локации.</span></div>
   <div class="li"><b>Мир стал настоящим</b><span>Текстуры травы, грязи, бетона и ржавчины, рельеф с камнем на склонах, туман, свечение и цветокоррекция.</span></div>
-  <div class="li"><b>Игра похудела почти вдвое</b><span>Около 20 МБ вместо 35, поэтому загружается заметно быстрее, особенно на телефоне.</span></div>
+  <div class="li"><b>Подготовка ресурсов</b><span>Модели и текстуры сжимаются для браузерной сборки.</span></div>
   <div class="li"><b>Оборона лагеря</b><span>Набеги и осады, охранники на постах и блокпосты на дорогах.</span></div>
   <div class="li"><b>Лагерь и жители</b><span>Жители с профессиями, работа, уровни лагеря и контракты.</span></div>
   <div class="li"><b>Руки героя заняты делом</b><span>Обыск ящиков, рубка и падение деревьев, двери, лом и перелаз через заборы.</span></div>
@@ -427,16 +427,15 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
 </div></section>
 
 <section id="team"><div class="wrap two">
- <div class="card rv"><div class="eyebrow">О команде</div><h2>Сделано в Иркутске</h2>
-  <p>Мы — команда энтузиастов из Иркутска. Делаем игру, в которую хотим играть сами: мрачную, как классические хорроры, динамичную, как старые аркадные шутеры, и про нашу страну.</p>
-  <div class="lead2"><div class="ava">СК</div><div><b>Сергей Карачицев</b><span>руководитель проекта · 34 года</span></div></div>
+ <div class="card rv"><div class="eyebrow">О проекте</div><h2>Мир «Терры»</h2>
+  <p>«Терра» — игра о выживании в России будущего. Исследуй руины, находи припасы и помогай выжившим построить лагерь.</p>
   <p>Нам важно мнение каждого игрока. Если нашёл баг, придумал оружие или босса или хочешь помочь с тестами на своём телефоне, напиши нам.</p>
   <div class="links"><a class="btn g sm" href="https://github.com/89244114832maxim-ai/terra-play/issues/new?template=idea.yml">Предложить идею</a><a class="btn g sm" href="https://github.com/89244114832maxim-ai/terra-play/issues/new?template=bug.yml">Сообщить о баге</a></div>
  </div>
  <div class="card rv" id="dev"><div class="eyebrow">Для разработчиков</div><h2>Под капотом</h2>
   <p>Вся игра — это один HTML-файл. Он работает офлайн и открывается в любом современном Chrome, без сервера и движка.</p>
   <div class="tech"><span>Three.js</span><span>WebGL 2</span><span>Web Audio</span><span>PBR-атласы</span><span>Bloom · SSAO · ACES</span><span>VAT-анимация толп</span><span>meshopt + WebP</span><span>процедурный мир по seed</span></div>
-  <p>Мир собирается из детерминированных чанков по 48 м. Толпы врагов на дальнем плане анимируются вершинной текстурой, чтобы большие толпы зомби не тормозили даже на телефоне. Модели сжаты meshopt, текстуры — в WebP, всё вместе весит около 20 МБ.</p>
+  <p>Мир собирается из детерминированных чанков по 48 м. Для анимации дальних врагов используются вершинные текстуры. Модели сжаты meshopt, изображения — в WebP.</p>
   <p>Интересно, как всё устроено, есть идеи по оптимизации или нашёл проблему с производительностью на своём устройстве? Открой issue и укажи модель телефона и браузер.</p>
   <div class="links"><a class="btn g sm" href="https://github.com/89244114832maxim-ai/terra-play/issues">Issues</a><a class="btn g sm" href="https://github.com/89244114832maxim-ai/terra-play/releases">Все сборки</a><a class="btn g sm" href="credits.html">Авторы ассетов</a></div>
  </div>
@@ -449,7 +448,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
 </div></section>
 
 <footer><div class="wrap">
- <div>© 2026 Команда «Терра», Иркутск</div>
+ <div>© 2026 «Терра»</div>
  <div><a href="credits.html">Авторы и лицензии ассетов</a> · <a href="https://github.com/89244114832maxim-ai/terra-play">GitHub</a> · <a href="https://github.com/89244114832maxim-ai/terra-play/issues">Обратная связь</a></div>
 </div></footer>
 
