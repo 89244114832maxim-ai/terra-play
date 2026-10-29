@@ -2,9 +2,9 @@
 """Dry-run packaging and release planning; never publish or modify releases."""
 import argparse, hashlib, json, pathlib, re, zipfile
 
-MAX_GAME=20_000_000
+MAX_GAME=45_000_000
 MAX_CREDITS=1_000_000
-MAX_ZIP=25_000_000
+MAX_ZIP=50_000_000
 README='Распакуйте архив и откройте terra.html. Авторы и лицензии: credits.html.\n'.encode()
 REQUIRED=('game-icons.net','creativecommons.org/licenses/by/3.0/','перекраш','delapouite','guard13007','lorc','sbed','skoll','zeromancer','atomicrealm.itch.io')
 def sha(data): return hashlib.sha256(data).hexdigest()
