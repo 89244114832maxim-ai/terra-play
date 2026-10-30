@@ -21,6 +21,15 @@ class Test(unittest.TestCase):
    with self.assertRaises(ValueError):p.package(t,t/'y.zip')
    (t/'play/index.html').unlink();(t/'play').rmdir();(t/'play').symlink_to(t,target_is_directory=True)
    with self.assertRaises(ValueError):p.package(t,t/'q.zip')
+ def test_requested_size_limits(self):
+  self.assertEqual(p.MAX_GAME,100_000_000);self.assertEqual(p.MAX_ZIP,100_000_000)
+  with tempfile.TemporaryDirectory() as d:
+   t=pathlib.Path(d);(t/'play').mkdir();game=t/'play/index.html'
+   with game.open('wb') as f:f.truncate(p.MAX_GAME+1)
+   with self.assertRaisesRegex(ValueError,'input missing or too large'):p.read_input(t,'play/index.html',p.MAX_GAME)
+   archive=t/'large.zip'
+   with archive.open('wb') as f:f.truncate(p.MAX_ZIP+1)
+   with self.assertRaisesRegex(ValueError,'archive too large'):p.verify_archive(archive,{})
  def test_identity_and_resume_plan(self):
   a={'terra.html':'a'*64,'credits.html':'b'*64,'README.txt':'c'*64};self.assertTrue(p.compare_latest(a,a));self.assertFalse(p.compare_latest({'terra.html':'a'*64},a));self.assertFalse(p.compare_latest(dict(a,**{'credits.html':'d'*64}),a))
   self.assertEqual(p.draft_plan('a'*40,'a'*40,{'terra.zip':'b'*64},{'terra.zip':'b'*64,'SHA256SUMS.txt':'c'*64}),['SHA256SUMS.txt'])
